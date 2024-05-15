@@ -1,30 +1,30 @@
 import pygame
 import sys
-from button import Button 
+from button import Button
+from screen import ScreenManager
+from imageMaker import ImageMaker
 
 class Main:
     """Main game loop"""
 
     def __init__(self):
         pygame.init()
-        self.screen_width = 3840
-        self.screen_height = 2160
+        self.screen_manager = ScreenManager(3840, 2160)
+        self.screen = self.screen_manager.initialize_screen()
         self.bg_color = (5, 0, 16)
-        self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
-        self.screen_width = self.screen.get_rect().width
-        self.screen_height = self.screen.get_rect().height
         pygame.display.set_caption("Background Helper")
 
         self.buttonexit = Button(
-            self.screen, "Exit Background Helper", self.screen_width/2-250, self.screen_height/2-25-100, 500, 50,
+            self.screen, "Exit Background Helper", self.screen.get_rect().width / 2 - 250, self.screen.get_rect().height / 2 - 25 - 100, 500, 50,
             button_color=(109, 173, 155), text_color=(255, 255, 255)
         )
 
         self.buttonplay = Button(
-            self.screen, "Create Background", self.screen_width/2-250, self.screen_height/2-25, 500, 50,
+            self.screen, "Create Background", self.screen.get_rect().width / 2 - 250, self.screen.get_rect().height / 2 - 25, 500, 50,
             button_color=(109, 173, 155), text_color=(255, 255, 255)
         )
 
+        self.image_maker = ImageMaker(self.screen_manager.width, self.screen_manager.height)
 
     def run(self):
         while True:
@@ -41,6 +41,9 @@ class Main:
                     if self.buttonexit.is_clicked(mouse_pos):
                         pygame.quit()
                         sys.exit()
+                    elif self.buttonplay.is_clicked(mouse_pos):
+                        self.image_maker.open_new_window()
+                        self.screen = self.screen_manager.initialize_screen()
 
             self.screen.fill(self.bg_color)
             self.buttonexit.draw_button()
