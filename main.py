@@ -1,7 +1,6 @@
 import pygame
 from screen import ScreenManager
 from button import Button
-from imageMaker import ImageMaker
 from algorithm import algorithm
 
 class Main:
