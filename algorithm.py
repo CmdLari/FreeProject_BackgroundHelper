@@ -9,7 +9,11 @@ def algorithm(screen, setting, screenwidth, screenheight):
     canvas(screen, setting, part, screenwidth, screenheight)
     part = "background"
     background(screen, setting, part, screenwidth, screenheight)
-
+    part = "athmosphere"
+    athmo(screen, setting, part, screenwidth, screenheight)
+    part = "middle"
+    middle(screen, setting, part, screenwidth, screenheight)
+    
     if not os.path.exists('output'):
         os.makedirs('output')
     
@@ -32,3 +36,25 @@ def background(screen, setting, part, screenwidth, screenheight):
     ImageMaker.blit_image(screen, setting, part, random_background, screenwidth, screenheight, 0+randx, 0+randy, flip)
     if random_recursion>0:
         background(screen, setting, part, screenwidth, screenheight)
+        
+def athmo(screen, setting, part, screenwidth, screenheight):
+    random_recursion = random.randint(0,4)
+    random_background = random.randint(0, 3)
+    randy = random.randint(-25,25)
+    randx = random.randint((-screenwidth)/2,screenwidth/2)
+    flip = random.randint(0, 1)
+    ImageMaker.blit_image(screen, setting, part, random_background, screenwidth, screenheight, 0+randx, 0+randy, flip)
+    if random_recursion>0:
+        athmo(screen, setting, part, screenwidth, screenheight)
+        
+def middle(screen, setting, part, screenwidth, screenheight):
+    random_recursion = random.randint(0,10)
+    random_background = random.randint(0, 3)
+    randy = random.randint(-25,25)
+    randx = random.randint((-screenwidth)/2,screenwidth/2)
+    flip = random.randint(0, 1)
+    ImageMaker.blit_image(screen, setting, part, random_background, screenwidth, screenheight, 0+randx, 0+randy, flip)
+    if random_recursion>0:
+        middle(screen, setting, part, screenwidth, screenheight)
+
+
