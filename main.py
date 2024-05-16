@@ -2,13 +2,38 @@ import pygame
 from screen import ScreenManager
 from button import Button
 from imageMaker import ImageMaker
-# from algorithm import Algorithm
+from algorithm import algorithm
 
 class Main:
     """Main game loop"""
 
     def __init__(self):
         pygame.init()
+        self.show_return_button = False  # Initialize button visibility flag
+
+
+    def open_new_screen(self, screen_manager, backgroundsetting):
+        new_screen = pygame.Surface((screen_manager.width, screen_manager.height))
+        new_screen.fill((0, 0, 0))
+        return_button = Button(screen_manager.screen, "X", 0, 0, 20, 20, (110, 150, 120), (255, 255, 255))
+        screen_manager.screen.blit(new_screen, (0, 0))
+        algorithm(screen_manager.screen, backgroundsetting, screen_manager.width, screen_manager.height)
+
+        running = True
+        while running:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    running = False
+                elif event.type == pygame.MOUSEBUTTONDOWN:
+                    mouse_pos = pygame.mouse.get_pos()
+                    if return_button.is_clicked(mouse_pos):
+                        self.show_return_button = False  # Hide the button when clicked
+                        running = False
+
+            if self.show_return_button:
+                return_button.draw_button()
+
+            pygame.display.update()
 
     def run(self):
         backgroundsetting = "forest"
@@ -20,32 +45,6 @@ class Main:
         quit_button = Button(screen_manager.screen, "QUIT", screen_manager.width/2-50, screen_manager.height/2-75, 100, 50, (110, 150, 120), (255, 255, 255))
         background_button = Button(screen_manager.screen, "CREATE", screen_manager.width/2-50, screen_manager.height/2, 100, 50, (110, 150, 120), (255, 255, 255))
         forest_button = Button(screen_manager.screen, "FOREST", screen_manager.width/2-50, screen_manager.height/2+75, 100, 50, (110, 150, 120), (255, 255, 255))
-
-        def open_new_screen():
-            show_button = True
-            new_screen = pygame.Surface((screen_manager.width, screen_manager.height))
-            new_screen.fill((255, 255, 255))  # Fill the new screen with white
-            return_button = Button(screen_manager.screen, "X", 0, 0, 20, 20, (110, 150, 120), (255, 255, 255))
-
-            running = True
-            while running:
-                for event in pygame.event.get():
-                    if event.type == pygame.QUIT:
-                        running = False
-                    elif event.type == pygame.MOUSEBUTTONDOWN:
-                        mouse_pos = pygame.mouse.get_pos()
-                        if return_button.is_clicked(mouse_pos):
-                            running = False
-                            show_button = False
-
-                # Blit the image onto the new screen, fitting the screen size
-
-                screen_manager.screen.blit(new_screen, (0, 0))  # Blit the new screen onto the main screen
-                if show_button:
-                    ImageMaker.blit_image(screen_manager.screen, backgroundsetting, "canvas", 0, screen_manager.width, screen_manager.height)
-                    return_button.draw_button()
-                pygame.display.update()
-
 
         running = True
         while running:
@@ -60,7 +59,8 @@ class Main:
                     if quit_button.is_clicked(mouse_pos):
                         running = False
                     elif background_button.is_clicked(mouse_pos):
-                        open_new_screen()
+                        self.show_return_button = True
+                        self.open_new_screen(screen_manager, backgroundsetting)
                     elif forest_button.is_clicked(mouse_pos):
                         backgroundsetting = "forest"
 
