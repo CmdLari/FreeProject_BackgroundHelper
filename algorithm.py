@@ -8,6 +8,8 @@ def algorithm(screen, setting, screenwidth, screenheight):
     part = "canvas"
     canvas(screen, setting, part, screenwidth, screenheight)
     part = "background"
+
+    ##choseImg(scree
     background(screen, setting, part, screenwidth, screenheight)
     part = "athmo"
     athmo(screen, setting, part, screenwidth, screenheight)
@@ -25,6 +27,8 @@ def algorithm(screen, setting, screenwidth, screenheight):
     filename = os.path.join('output', f'screenshot_{int(time.time())}.png')
     pygame.image.save(window_surface, filename)
 
+
+##def choseImg(screen, setting, part, screenwidth, screenheight, randXVal, randYVal, flip, recursion, 
 
 def canvas(screen, setting, part, screenwidth, screenheight):
     ### BACKGROUND
