@@ -6,20 +6,18 @@ import time
 
 def algorithm(screen, setting, screenwidth, screenheight):
     part = "canvas"
-    canvas(screen, setting, part, screenwidth, screenheight)
+    choseImg(screen, setting, part, screenwidth, screenheight, 0, 0, 0, 0, 0)
     part = "background"
-
-    ##choseImg(scree
-    background(screen, setting, part, screenwidth, screenheight)
+    choseImg(screen, setting, part, screenwidth, screenheight, 0, 0, -25, 25, 10)
     part = "athmo"
-    athmo(screen, setting, part, screenwidth, screenheight)
+    choseImg(screen, setting, part, screenwidth, screenheight, -screenwidth/2, screenwidth/2, -25, 25, 3)
     part = "middle"
-    middle(screen, setting, part, screenwidth, screenheight)
+    choseImg(screen, setting, part, screenwidth, screenheight, -screenwidth/2, screenwidth/2, -25, 25, 4)
     part = "foreground"
-    foreground(screen, setting, part, screenwidth, screenheight)
+    choseImg(screen, setting, part, screenwidth, screenheight, -100, 100, -25, 25, 6)
     part = "frame"
-    frame(screen, setting, part, screenwidth, screenheight)
-    
+    choseImg(screen, setting, part, screenwidth, screenheight, 0, 0, 0, 0, 4)
+
     if not os.path.exists('output'):
         os.makedirs('output')
     
@@ -28,61 +26,12 @@ def algorithm(screen, setting, screenwidth, screenheight):
     pygame.image.save(window_surface, filename)
 
 
-##def choseImg(screen, setting, part, screenwidth, screenheight, randXVal, randYVal, flip, recursion, 
-
-def canvas(screen, setting, part, screenwidth, screenheight):
-    ### BACKGROUND
-    random_background = random.randint(0, 3)
-    ImageMaker.blit_image(screen, setting, part, random_background, screenwidth, screenheight, 0, 0, 0)
-
-def background(screen, setting, part, screenwidth, screenheight):
-    random_recursion = random.randint(0,10)
-    random_background = random.randint(0, 3)
-    randy = random.randint(-25,25)
-    randx = random.randint((-screenwidth)/2,screenwidth/2)
+def choseImg(screen, setting, part, screenwidth, screenheight, randXValmin, randXValmax, randYValmin, randYValmax, recursion):
+    random_recursion = random.randint(0, recursion)
+    random_img = random.randint(0, 3)
+    randx = random.randint(randXValmin, randXValmax)
+    randy = random.randint(randYValmin, randYValmax)
     flip = random.randint(0, 1)
-    ImageMaker.blit_image(screen, setting, part, random_background, screenwidth, screenheight, 0+randx, 0+randy, flip)
+    ImageMaker.blit_image(screen, setting, part, random_img, screenwidth, screenheight, 0+randx, 0+randy, flip)
     if random_recursion>0:
-        background(screen, setting, part, screenwidth, screenheight)
-        
-def athmo(screen, setting, part, screenwidth, screenheight):
-    random_recursion = random.randint(0,3)
-    random_background = random.randint(0, 3)
-    randy = random.randint(-25,25)
-    randx = random.randint((-screenwidth)/2,screenwidth/2)
-    flip = random.randint(0, 1)
-    ImageMaker.blit_image(screen, setting, part, random_background, screenwidth, screenheight, 0+randx, 0+randy, flip)
-    if random_recursion>0:
-        athmo(screen, setting, part, screenwidth, screenheight)
-        
-def middle(screen, setting, part, screenwidth, screenheight):
-    random_recursion = random.randint(0,4)
-    random_background = random.randint(0, 3)
-    randy = random.randint(-25,25)
-    randx = random.randint((-screenwidth)/2,screenwidth/2)
-    flip = random.randint(0, 1)
-    ImageMaker.blit_image(screen, setting, part, random_background, screenwidth, screenheight, 0+randx, 0+randy, flip)
-    if random_recursion>0:
-        middle(screen, setting, part, screenwidth, screenheight)
-
-def foreground(screen, setting, part, screenwidth, screenheight):
-    random_recursion = random.randint(0,6)
-    random_background = random.randint(0, 3)
-    if random_background==3:
-        yesno = random.randint(0, 1)
-        if yesno==1:
-            random_background = random.randint(0, 3)
-    randy = random.randint(-25,25)
-    randx = random.randint((-100),100)
-    flip = random.randint(0, 1)
-    ImageMaker.blit_image(screen, setting, part, random_background, screenwidth, screenheight, 0+randx, 0+randy, flip)
-    if random_recursion>0:
-        foreground(screen, setting, part, screenwidth, screenheight)
-
-def frame(screen, setting, part, screenwidth, screenheight):
-    random_recursion = random.randint(0,4)
-    random_background = random.randint(0, 3)
-    flip = random.randint(0, 1)
-    ImageMaker.blit_image(screen, setting, part, random_background, screenwidth, screenheight, 0, 0, flip)
-    if random_recursion>0:
-        frame(screen, setting, part, screenwidth, screenheight)
+        choseImg(screen, setting, part, screenwidth, screenheight, randXValmin, randXValmax, randYValmin, randYValmax, recursion)
